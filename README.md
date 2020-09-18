@@ -18,7 +18,7 @@ Or reference the git repo directly:
 ```yaml
 dependencies:
   flip_drawer:
-    git: git://github.com/salkuadrat/flip_drawer.git
+    git: https://github.com/salkuadrat/flip_drawer.git
 ```
 
 Then run `flutter packages upgrade` or update your packages in IntelliJ.
