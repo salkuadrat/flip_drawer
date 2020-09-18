@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "1.14.13"
   curved_animation_controller:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: curved_animation_controller
       url: "https://pub.dartlang.org"

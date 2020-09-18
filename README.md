@@ -37,7 +37,7 @@ import 'package:flip_drawer/flip_drawer.dart';
 
 Then wrap your app home page with FlipDrawer. 
 
-To use the basic FlipDrawer, you only need to define title and items (List of MenuItem) to generate menu in your drawer. The drawer will use your default theme color as drawer background, and theme brightness as drawer brightness.
+To use the basic FlipDrawer, you need to define title and items (List of MenuItem) to generate menu in your drawer. The drawer will use your default theme color as drawer background, and theme brightness as drawer brightness.
 
 ```
 class App extends StatelessWidget {

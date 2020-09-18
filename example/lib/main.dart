@@ -1,8 +1,9 @@
+import 'package:example/toped.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_drawer/flip_drawer.dart';
 
 void main() {
-  runApp(App());
+  runApp(TokopediaApp());
 }
 
 enum FlipDrawerExampleType {
