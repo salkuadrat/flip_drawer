@@ -10,7 +10,7 @@ You should add dependency in your flutter project.
 
 ```yaml
 dependencies:
-  flip_drawer: ^1.0.0
+  flip_drawer: ^1.0.1
 ```
 
 Or reference the git repo directly:
