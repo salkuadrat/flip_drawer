@@ -1,8 +1,9 @@
 name: flip_drawer
 description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+version: 1.0.0
+author: Salman S
+homepage: https://github.com/salkuadrat/flip_drawer
+repository: https://github.com/salkuadrat/flip_drawer
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
