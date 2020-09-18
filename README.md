@@ -99,7 +99,7 @@ It's advisable to set alignment to FlipDrawerAlignment.start when you use headDr
 ```
 home: FlipDrawer(
   title: 'Your App Title',
-  alignment: SlideDrawerAlignment.start,
+  alignment: FlipDrawerAlignment.start,
   headDrawer: Image.asset('boys.png'),
   items: [
     MenuItem('Home', icon: Icons.home, onTap: (){}),
