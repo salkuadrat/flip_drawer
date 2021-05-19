@@ -7,7 +7,6 @@ import 'package:flip_drawer/src/container.dart';
 import 'package:flip_drawer/src/item.dart';
 
 class FlipDrawer extends StatefulWidget {
-
   /// The color to use for the drawer background. Typically this should be set
   /// along with [brightness].
   ///
@@ -25,21 +24,21 @@ class FlipDrawer extends StatefulWidget {
 
   /// Custom drawer to be used when you don't want to use
   /// the default [SlideDrawerContainer] generated from [items] or [contentDrawer]
-  final Widget drawer;
+  final Widget? drawer;
 
   /// Head drawer to be rendered before [contentDrawer]
   /// or the default generated content drawer from [items]
-  final Widget headDrawer;
+  final Widget? headDrawer;
 
   /// Content drawer to be used if you don't want to use
   /// the default content drawer generated from [items]
-  final Widget contentDrawer;
+  final Widget? contentDrawer;
 
   /// List of [MenuItem] to be used to generate the default content drawer
   final List<MenuItem> items;
 
-  /// Duration of the drawer sliding animation 
-  /// 
+  /// Duration of the drawer sliding animation
+  ///
   /// Default is [Duration(milliseconds: 300)]
   final Duration duration;
 
@@ -47,17 +46,17 @@ class FlipDrawer extends StatefulWidget {
   final Curve curve;
 
   /// Duration of the drawer sliding animation in the reverse direction
-  final Duration reverseDuration;
+  final Duration? reverseDuration;
 
   /// Curve to be used for the drawer sliding animation in the reverse direction
-  final Curve reverseCurve;
+  final Curve? reverseCurve;
 
-  /// Vertical alignment of content inside drawer 
+  /// Vertical alignment of content inside drawer
   /// it can [start] from the top, or [center]
-  final FlipDrawerAlignment alignment;
+  final FlipDrawerAlignment? alignment;
 
   /// Offset from right to calculate the end point of sliding animation
-  /// 
+  ///
   /// Default is 60.0
   final double offsetFromRight;
 
@@ -66,40 +65,39 @@ class FlipDrawer extends StatefulWidget {
   final bool isAnimateMenuButton;
 
   const FlipDrawer({
-    Key key, 
-    this.items, 
+    Key? key,
+    this.items = const [],
     this.drawer,
-    this.headDrawer, 
+    this.headDrawer,
     this.contentDrawer,
-    @required this.child,
-    this.duration=const Duration(milliseconds: 250),
-    this.curve=Curves.easeInOut,
+    required this.child,
+    this.duration = const Duration(milliseconds: 250),
+    this.curve = Curves.easeInOut,
     this.reverseDuration,
     this.reverseCurve,
     this.alignment,
-    this.title,
-    this.offsetFromRight=60.0,
-    this.isAnimateMenuButton=true,
+    required this.title,
+    this.offsetFromRight = 60.0,
+    this.isAnimateMenuButton = true,
   }) : super(key: key);
 
-  static _FlipDrawerState of(BuildContext context) =>
-    context.findAncestorStateOfType<_FlipDrawerState>();
+  static _FlipDrawerState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_FlipDrawerState>();
 
   @override
   _FlipDrawerState createState() => _FlipDrawerState();
 }
 
-class _FlipDrawerState extends State<FlipDrawer> 
-  with TickerProviderStateMixin {
-
+class _FlipDrawerState extends State<FlipDrawer> with TickerProviderStateMixin {
   bool _canBeDragged = false;
-  double get _maxSlide => MediaQuery.of(context).size.width - widget.offsetFromRight;
-  
+  double get _maxSlide =>
+      MediaQuery.of(context).size.width - widget.offsetFromRight;
+
   bool get _hasReverseCurve => widget.reverseCurve != null;
   bool get _hasReverseDuration => widget.reverseDuration != null;
-  
-  CurvedAnimationController _animation;
-  CurvedAnimationController _menuAnimation;
+
+  late CurvedAnimationController _animation;
+  late CurvedAnimationController _menuAnimation;
 
   ThemeData get theme => Theme.of(context);
 
@@ -118,16 +116,22 @@ class _FlipDrawerState extends State<FlipDrawer>
 
   _initAnimation() {
     _animation = CurvedAnimationController(
-      vsync: this, duration: widget.duration, curve: widget.curve,
+      vsync: this,
+      duration: widget.duration,
+      curve: widget.curve,
       reverseCurve: _hasReverseCurve ? widget.reverseCurve : widget.curve,
-      reverseDuration: _hasReverseDuration ? widget.reverseDuration : widget.duration,
+      reverseDuration:
+          _hasReverseDuration ? widget.reverseDuration : widget.duration,
       debugLabel: 'FlipDrawer',
     );
 
     _menuAnimation = CurvedAnimationController(
-      vsync: this, duration: widget.duration, curve: widget.curve,
+      vsync: this,
+      duration: widget.duration,
+      curve: widget.curve,
       reverseCurve: _hasReverseCurve ? widget.reverseCurve : widget.curve,
-      reverseDuration: _hasReverseDuration ? widget.reverseDuration : widget.duration,
+      reverseDuration:
+          _hasReverseDuration ? widget.reverseDuration : widget.duration,
     );
 
     _animation.addListener(() => setState(() {}));
@@ -135,12 +139,13 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   open() {
-    _animation?.start();
-    if(widget.isAnimateMenuButton) _menuAnimation?.start();
+    _animation.start();
+    if (widget.isAnimateMenuButton) _menuAnimation.start();
   }
+
   close() {
-    _animation?.reverse();
-    if(widget.isAnimateMenuButton) _menuAnimation?.reverse();
+    _animation.reverse();
+    if (widget.isAnimateMenuButton) _menuAnimation.reverse();
   }
 
   toggle() => _animation.isCompleted ? close() : open();
@@ -153,10 +158,10 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   _onDragUpdate(DragUpdateDetails details) {
-    if(_canBeDragged) {
-      double delta = details.primaryDelta / _maxSlide;
+    if (_canBeDragged && details.primaryDelta != null) {
+      double delta = details.primaryDelta! / _maxSlide;
       _animation.progress += delta;
-      if(widget.isAnimateMenuButton) _menuAnimation.progress += delta;
+      if (widget.isAnimateMenuButton) _menuAnimation.progress += delta;
     }
   }
 
@@ -168,11 +173,11 @@ class _FlipDrawerState extends State<FlipDrawer>
     }
 
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
-      double visualVelocity = 
-        details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
-      _animation?.fling(velocity: visualVelocity);
-      if(widget.isAnimateMenuButton) _menuAnimation?.fling(velocity: visualVelocity);
-
+      double visualVelocity = details.velocity.pixelsPerSecond.dx /
+          MediaQuery.of(context).size.width;
+      _animation.fling(velocity: visualVelocity);
+      if (widget.isAnimateMenuButton)
+        _menuAnimation.fling(velocity: visualVelocity);
     } else if (_animation.progress < 0.5) {
       close();
     } else {
@@ -181,16 +186,16 @@ class _FlipDrawerState extends State<FlipDrawer>
   }
 
   Widget get _drawer => FlipDrawerContainer(
-    alignment: widget.alignment,
-    head: widget.headDrawer,
-    content: widget.contentDrawer,
-    drawer: widget.drawer,
-    items: widget.items,
-    paddingRight: widget.offsetFromRight,
-    headPaddingRight: _animation.progress < 0.9 
-      ? widget.offsetFromRight 
-      : (1 - _animation.progress) * widget.offsetFromRight,
-  );
+        alignment: widget.alignment,
+        head: widget.headDrawer,
+        content: widget.contentDrawer,
+        drawer: widget.drawer,
+        items: widget.items,
+        paddingRight: widget.offsetFromRight,
+        headPaddingRight: _animation.progress < 0.9
+            ? widget.offsetFromRight
+            : (1 - _animation.progress) * widget.offsetFromRight,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +253,7 @@ class _FlipDrawerState extends State<FlipDrawer>
                 child: IconButton(
                   icon: AnimatedIcon(
                     icon: AnimatedIcons.menu_close,
-                    color: Colors.white, 
+                    color: Colors.white,
                     progress: _menuAnimation.controller,
                   ),
                   onPressed: toggle,

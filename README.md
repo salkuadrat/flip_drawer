@@ -1,19 +1,25 @@
 # FlipDrawer
 
-An easy way to use a drawer with cool flipping animation.
+An easy way to use drawer in Flutter with cool flipping animation.
 
 ![](example.gif)
 
 ## Getting Started
 
-You should add dependency in your flutter project.
+Add dependency in your flutter project.
+
+```
+$ flutter pub add flip_drawer
+```
+
+or
 
 ```yaml
 dependencies:
-  flip_drawer: ^1.0.1
+  flip_drawer: ^1.0.2
 ```
 
-Or reference the git repo directly:
+or
 
 ```yaml
 dependencies:
@@ -21,25 +27,26 @@ dependencies:
     git: https://github.com/salkuadrat/flip_drawer.git
 ```
 
-Then run `flutter packages upgrade` or update your packages in IntelliJ.
+Then run `flutter pub get`.
 
 ## Example Project
 
-You can see the `example` folder to learn many different ways to use FlipDrawer in your app.
+You can see the `example` folder to learn many different ways of using FlipDrawer in your app.
 
-## How To Use
 
-As usual, you need to import the package.
+## Usage
 
-```
+As usual, we need to import the package.
+
+```dart
 import 'package:flip_drawer/flip_drawer.dart';
 ```
 
-Then wrap your app home page with FlipDrawer. 
+Then wrap the app home page with FlipDrawer. 
 
 To use the basic FlipDrawer, you need to define title and items (List of MenuItem) to generate menu in your drawer. The drawer will use your default theme color as drawer background, and theme brightness as drawer brightness.
 
-```
+```dart
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -68,17 +75,17 @@ class App extends StatelessWidget {
 }
 ```
 
-Then you need to set your AppBar to only use a bare AppBar without title and leading. Title and menu button will be managed by FlipDrawer.
+Then set AppBar to only use a bare AppBar without title and leading. Title and menu button will be managed by FlipDrawer.
 
-```
+```dart
 appBar: AppBar(),
 ```
 
 ### Icons
 
-You can also use icon for your menu items.
+We can also use icon for menu items.
 
-```
+```dart
 home: FlipDrawer(
   items: [
     MenuItem('Home', icon: Icons.home, onTap: (){}),
@@ -96,7 +103,7 @@ home: FlipDrawer(
 
 It's advisable to set alignment to FlipDrawerAlignment.start when you use headDrawer.
 
-```
+```dart
 home: FlipDrawer(
   title: 'Your App Title',
   alignment: FlipDrawerAlignment.start,
@@ -114,10 +121,10 @@ home: FlipDrawer(
 
 ### Custom Content Drawer
 
-In the previous example, you use items to let the FlipDrawer generate menu in the content drawer.
-You can also use any other widget as the content drawer.
+In the previous example, we use items and let the FlipDrawer generate menu in the content drawer.
+But we can also use any custom widget as the content drawer.
 
-```
+```dart
 home: FlipDrawer(
   contentDrawer: Container(
     padding: EdgeInsets.symmetric(horizontal: 5),
@@ -138,9 +145,9 @@ home: FlipDrawer(
 
 ### Custom Full Drawer
 
-If you have your own creative idea for the full widget inside the drawer, don't worry. You can use it too in your FlipDrawer by passing it to drawer. If you use custom drawer like this, make sure to use the same background color for your custom drawer as your Theme color.
+If you have your own creative idea for the full widget inside the drawer, don't worry. We can use it in FlipDrawer by passing the full widget to the drawer. But make sure to use the same background color for the custom drawer as for the Theme color.
 
-```
+```dart
 home: FlipDrawer(
   drawer: Container(
     color: Colors.teal,
@@ -167,9 +174,9 @@ home: FlipDrawer(
 
 ### Others
 
-You can also use custom curve and duration if you want. The default values are linear and 250ms. You can also specify curveReverse and durationReverse to change curve and duration of animation in the reverse direction.
+We can also use custom curve and duration. The default values are linear and 250ms. We can specify curveReverse and durationReverse to change curve and duration of animation in the reverse direction.
 
-```
+```dart
 home: FlipDrawer(
   curve: Curves.easeInOut,
   duration: Duration(milliseconds: 200),

@@ -6,8 +6,8 @@ void main() {
 }
 
 enum FlipDrawerExampleType {
-  BASIC, 
-  ICON, 
+  BASIC,
+  ICON,
   HEAD_DRAWER,
   CONTENT_DRAWER,
   HEAD_CONTENT_DRAWER,
@@ -20,7 +20,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  
   Key _appKey = UniqueKey();
   FlipDrawerExampleType type = FlipDrawerExampleType.BASIC;
   String _title = 'Flip Drawer Demo';
@@ -33,119 +32,143 @@ class _AppState extends State<App> {
   bool get _isFullDrawer => type == FlipDrawerExampleType.FULL_DRAWER;
 
   List<MenuItem> get _items => [
-    MenuItem('Basic', onTap: () => _changeType(FlipDrawerExampleType.BASIC)),
-    MenuItem('With Icon', onTap: () => _changeType(FlipDrawerExampleType.ICON)),
-    MenuItem('Custom Header', onTap: () => _changeType(FlipDrawerExampleType.HEAD_DRAWER)),
-    MenuItem('Custom Content', onTap: () => _changeType(FlipDrawerExampleType.CONTENT_DRAWER)),
-    MenuItem('Header and Content', onTap: () => _changeType(FlipDrawerExampleType.HEAD_CONTENT_DRAWER)),
-    MenuItem('Full Drawer', onTap: () => _changeType(FlipDrawerExampleType.FULL_DRAWER)),
-  ];
+        MenuItem('Basic',
+            onTap: () => _changeType(FlipDrawerExampleType.BASIC)),
+        MenuItem('With Icon',
+            onTap: () => _changeType(FlipDrawerExampleType.ICON)),
+        MenuItem('Custom Header',
+            onTap: () => _changeType(FlipDrawerExampleType.HEAD_DRAWER)),
+        MenuItem('Custom Content',
+            onTap: () => _changeType(FlipDrawerExampleType.CONTENT_DRAWER)),
+        MenuItem('Header and Content',
+            onTap: () =>
+                _changeType(FlipDrawerExampleType.HEAD_CONTENT_DRAWER)),
+        MenuItem('Full Drawer',
+            onTap: () => _changeType(FlipDrawerExampleType.FULL_DRAWER)),
+      ];
 
   List<MenuItem> get _itemsIcon => [
-    MenuItem('Basic', icon: Icons.rss_feed, onTap: () => _changeType(FlipDrawerExampleType.BASIC)),
-    MenuItem('With Icon', icon: Icons.favorite_border, onTap: () => _changeType(FlipDrawerExampleType.ICON)),
-    MenuItem('Custom Header', icon: Icons.map, onTap: () => _changeType(FlipDrawerExampleType.HEAD_DRAWER)),
-    MenuItem('Custom Content', icon: Icons.person_outline, onTap: () => _changeType(FlipDrawerExampleType.CONTENT_DRAWER)),
-    MenuItem('Header and Content', icon: Icons.alarm, onTap: () => _changeType(FlipDrawerExampleType.HEAD_CONTENT_DRAWER)),
-    MenuItem('Full Drawer', icon: Icons.settings, onTap: () => _changeType(FlipDrawerExampleType.FULL_DRAWER)),
-  ];
+        MenuItem('Basic',
+            icon: Icons.rss_feed,
+            onTap: () => _changeType(FlipDrawerExampleType.BASIC)),
+        MenuItem('With Icon',
+            icon: Icons.favorite_border,
+            onTap: () => _changeType(FlipDrawerExampleType.ICON)),
+        MenuItem('Custom Header',
+            icon: Icons.map,
+            onTap: () => _changeType(FlipDrawerExampleType.HEAD_DRAWER)),
+        MenuItem('Custom Content',
+            icon: Icons.person_outline,
+            onTap: () => _changeType(FlipDrawerExampleType.CONTENT_DRAWER)),
+        MenuItem('Header and Content',
+            icon: Icons.alarm,
+            onTap: () =>
+                _changeType(FlipDrawerExampleType.HEAD_CONTENT_DRAWER)),
+        MenuItem('Full Drawer',
+            icon: Icons.settings,
+            onTap: () => _changeType(FlipDrawerExampleType.FULL_DRAWER)),
+      ];
 
   _changeType(type) {
-    if(mounted) setState(() {
-      this.type = type;
-      _appKey = UniqueKey();
-    });
+    if (this.type != type)
+      setState(() {
+        this.type = type;
+        _appKey = UniqueKey();
+      });
   }
 
   Widget get _home {
-    if(_isBasic) return _basic;
-    if(_isIcon) return _icon;
-    if(_isHead) return _head;
-    if(_isContent) return _content;
-    if(_isHeadContent) return _headContent;
-    if(_isFullDrawer) return _fullDrawer;
+    if (_isBasic) return _basic;
+    if (_isIcon) return _icon;
+    if (_isHead) return _head;
+    if (_isContent) return _content;
+    if (_isHeadContent) return _headContent;
+    if (_isFullDrawer) return _fullDrawer;
     return _basic;
   }
 
   Widget get _basic => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    items: _items,
-  );
+        title: _title,
+        child: HomePage(),
+        items: _items,
+      );
 
   Widget get _icon => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    items: _itemsIcon,
-  );
+        title: _title,
+        child: HomePage(),
+        items: _itemsIcon,
+      );
 
   Widget get _head => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    headDrawer: Image.asset('boys.png'),
-    alignment: FlipDrawerAlignment.start,
-    items: _itemsIcon,
-  );
+        title: _title,
+        child: HomePage(),
+        headDrawer: Image.asset('boys.png'),
+        alignment: FlipDrawerAlignment.start,
+        items: _itemsIcon,
+      );
 
   Widget get _content => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    contentDrawer: Container(
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      child: Column(
-        children: [
-          for(var item in _itemsIcon) ListTile(
-            title: Text(item.title),
-            leading: Icon(item.icon),
-            onTap: item.onTap,
+        title: _title,
+        child: HomePage(),
+        contentDrawer: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Column(
+            children: [
+              for (var item in _itemsIcon)
+                ListTile(
+                  title: Text(item.title),
+                  leading: Icon(item.icon),
+                  onTap: item.onTap,
+                ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Widget get _headContent => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    alignment: FlipDrawerAlignment.start,
-    headDrawer: Image.asset('boys.png'),
-    contentDrawer: Container(
-      padding: EdgeInsets.only(left: 10, top: 18),
-      child: Column(
-        children: [
-          for(var item in _itemsIcon) ListTile(
-            title: Text(item.title),
-            leading: Icon(item.icon),
-            onTap: item.onTap,
+        title: _title,
+        child: HomePage(),
+        alignment: FlipDrawerAlignment.start,
+        headDrawer: Image.asset('boys.png'),
+        contentDrawer: Container(
+          padding: EdgeInsets.only(left: 10, top: 18),
+          child: Column(
+            children: [
+              for (var item in _itemsIcon)
+                ListTile(
+                  title: Text(item.title),
+                  leading: Icon(item.icon),
+                  onTap: item.onTap,
+                ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 
   Widget get _fullDrawer => FlipDrawer(
-    title: _title,
-    child: HomePage(),
-    offsetFromRight: 80,
-    isAnimateMenuButton: false,
-    drawer: Container(
-      color: Colors.teal,
-      padding: EdgeInsets.symmetric(vertical: 36, horizontal: 15),
-      child: Theme(
-        data: ThemeData(brightness: Brightness.dark),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for(var item in _items) ListTile(
-              title: Text(item.title),
-              onTap: item.onTap,
+        title: _title,
+        child: HomePage(),
+        offsetFromRight: 80,
+        isAnimateMenuButton: false,
+        drawer: Container(
+          color: Colors.teal,
+          padding: EdgeInsets.symmetric(vertical: 36, horizontal: 15),
+          child: Theme(
+            data: ThemeData(brightness: Brightness.dark),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var item in _items)
+                  ListTile(
+                    title: Text(item.title),
+                    onTap: item.onTap,
+                  ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -190,11 +213,11 @@ class _HomePageState extends State<HomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        //title: Text('Flip Drawer Demo'),
-        //leading: Container(),
-      ),
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          //title: Text('Flip Drawer Demo'),
+          //leading: Container(),
+          ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

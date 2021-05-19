@@ -3,12 +3,16 @@ import 'package:flip_drawer/src/alignment.dart';
 import 'package:flip_drawer/src/item.dart';
 
 class FlipDrawerContainer extends StatelessWidget {
+  final Widget? drawer;
 
-  final Widget drawer;
-  final Widget head;
-  final Widget content;
+  final Widget? head;
+
+  final Widget? content;
+
   final List<MenuItem> items;
+
   final double paddingRight;
+
   final double headPaddingRight;
 
   /// The color to use for the background. Typically this should be set
@@ -23,75 +27,79 @@ class FlipDrawerContainer extends StatelessWidget {
   /// If this property is null, then [ThemeData.primaryColorBrightness] is used.
   //final Brightness brightness;
 
-  /// Vertical alignment of content inside [SlideDrawerContainer] 
+  /// Vertical alignment of content inside [SlideDrawerContainer]
   /// it can [start] from the top, or [center]
-  final FlipDrawerAlignment alignment;
+  final FlipDrawerAlignment? alignment;
 
-  bool get _hasItems => items != null && items.isNotEmpty;
+  bool get _hasItems => items.isNotEmpty;
   bool get _hasDrawer => drawer != null;
   bool get _hasHead => head != null;
   bool get _hasContent => content != null;
 
   FlipDrawerContainer({
-    Key key, 
+    Key? key,
     this.drawer,
-    this.head, 
-    this.content, 
-    this.items, 
+    this.head,
+    this.content,
+    this.items = const [],
     //this.brightness,
     //this.backgroundColor,
     this.alignment,
-    this.paddingRight=0,
-    this.headPaddingRight=0,
+    this.paddingRight = 0.0,
+    this.headPaddingRight = 0.0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    
     ThemeData theme = Theme.of(context);
-    FlipDrawerAlignment _alignment = alignment;
+    FlipDrawerAlignment? _alignment = alignment;
 
-    if(_alignment == null) {
-      _alignment = _hasHead 
-        ? FlipDrawerAlignment.start 
-        : FlipDrawerAlignment.center;
+    if (_alignment == null) {
+      _alignment =
+          _hasHead ? FlipDrawerAlignment.start : FlipDrawerAlignment.center;
     }
 
     bool _isAlignTop = _alignment == FlipDrawerAlignment.start;
 
     double _width = MediaQuery.of(context).size.width;
     double _scale = (_width - headPaddingRight) / _width;
-    
+
     return Material(
-      child: _hasDrawer ? drawer : Container(
-        decoration: BoxDecoration(color: theme.primaryColor),
-        child: SafeArea(
-          child: Theme(
-            data: ThemeData(brightness: theme.primaryColorBrightness), 
-            child: Column(
-              mainAxisAlignment: _isAlignTop 
-                ? MainAxisAlignment.start : MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if(_hasHead) Transform(
-                  transform: Matrix4.identity()
-                    ..scale(_scale, 1.0, 1.0),
-                  child: head,
-                ),
-                if(_hasContent) Container(
-                  margin: EdgeInsets.only(right: paddingRight),
-                  child: content,
-                ),
-                if(!_hasContent && _hasItems) 
-                  for(MenuItem item in items) Container(
-                    margin: EdgeInsets.only(right: paddingRight),
-                    child: MenuItemWidget(item: item),
+      child: _hasDrawer
+          ? drawer
+          : Container(
+              decoration: BoxDecoration(color: theme.primaryColor),
+              child: SafeArea(
+                child: Theme(
+                  data: ThemeData(brightness: theme.primaryColorBrightness),
+                  child: Column(
+                    mainAxisAlignment: _isAlignTop
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (_hasHead)
+                        Transform(
+                          transform: Matrix4.identity()
+                            ..scale(_scale, 1.0, 1.0),
+                          child: head,
+                        ),
+                      if (_hasContent)
+                        Container(
+                          margin: EdgeInsets.only(right: paddingRight),
+                          child: content,
+                        ),
+                      if (!_hasContent && _hasItems)
+                        for (MenuItem item in items)
+                          Container(
+                            margin: EdgeInsets.only(right: paddingRight),
+                            child: MenuItemWidget(item: item),
+                          ),
+                    ],
                   ),
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -99,11 +107,11 @@ class FlipDrawerContainer extends StatelessWidget {
 class MenuItemWidget extends StatelessWidget {
   final MenuItem item;
 
-  MenuItemWidget({Key key, this.item}) : super(key: key);
+  MenuItemWidget({Key? key, required this.item}) : super(key: key);
 
-  Widget get _leading {
-    if(item.hasLeading) return item.leading;
-    if(item.hasIcon) return Icon(item.icon);
+  Widget? get _leading {
+    if (item.hasLeading) return item.leading!;
+    if (item.hasIcon) return Icon(item.icon);
     return null;
   }
 
