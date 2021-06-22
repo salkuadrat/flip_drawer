@@ -16,15 +16,7 @@ or
 
 ```yaml
 dependencies:
-  flip_drawer: ^1.0.2
-```
-
-or
-
-```yaml
-dependencies:
-  flip_drawer:
-    git: https://github.com/salkuadrat/flip_drawer.git
+  flip_drawer: ^1.0.3
 ```
 
 Then run `flutter pub get`.
@@ -32,7 +24,6 @@ Then run `flutter pub get`.
 ## Example Project
 
 You can see the `example` folder to learn many different ways of using FlipDrawer in your app.
-
 
 ## Usage
 

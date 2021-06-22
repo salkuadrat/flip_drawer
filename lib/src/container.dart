@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flip_drawer/src/alignment.dart';
 import 'package:flip_drawer/src/item.dart';
 
+import 'drawer.dart';
+
 class FlipDrawerContainer extends StatelessWidget {
   final Widget? drawer;
 
@@ -121,7 +123,12 @@ class MenuItemWidget extends StatelessWidget {
       leading: _leading,
       contentPadding: EdgeInsets.only(left: _leading == null ? 24 : 16),
       title: Text(item.title),
-      onTap: item.onTap,
+      onTap: () {
+        if (item.isCloseDrawerWhenTapped) {
+          FlipDrawer.of(context)?.close();
+        }
+        item.onTap?.call();
+      },
     );
   }
 }
